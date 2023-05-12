@@ -1,27 +1,24 @@
-#!/usr/bin/env python3
 class CashRegister:
-  def __init__(self, discount=0, total=0, price=0):
-    self.discount = discount 
-    self._total = total
-    self.price = price
 
-  def get_total(self):
-    return self._total 
-  
-  def set_total(self, total):
-    self._total = total 
-  
-  total = property(get_total, set_total)
+  def __init__(self, discount = 0):
+    self.discount = discount
+    self.total = 0
+    self.last_transaction = 0
+    self.items = []
 
-  def add_item(self, item='', price=0, quantity=None):
-    if isinstance(quantity, int):
-      self._total = self._total + (price * quantity)
+  def add_item(self, title, price, quantity = 1):
+    self.last_transaction = price * quantity
+    self.total += self.last_transaction
+    for _ in range(quantity):
+      self.items.append(title)
+
+  def apply_discount(self):
+    if (self.discount > 0):
+      discount_as_percent = (100 - float(self.discount)) / 100
+      self.total = int(self.total * discount_as_percent)
+      print(f"After the discount, the total comes to ${self.total}.")
     else:
-      self._total = self._total + price
-  
-  def apply_discount(self, discount=None):
-    if discount is not None:
-      self.discount = discount
-    if isinstance(self.discount, float) and self.discount > 0:
-      self._total = self._total - (self._total * self.discount)
-      self.set_total(self._total)  # call set_total method to update total property
+      print('There is no discount to apply.')
+
+  def void_last_transaction(self):
+    self.total -= self.last_transaction

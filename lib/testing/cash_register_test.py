@@ -86,8 +86,11 @@ class TestCashRegister:
     def test_items_list_without_multiples(self):
         '''returns an array containing all items that have been added'''
         new_register = CashRegister()
+        print(new_register.items)
         new_register.add_item("eggs", 1.99)
+        print(new_register.items)
         new_register.add_item("tomato", 1.76)
+        print(new_register.items)
         assert(new_register.items == ["eggs", "tomato"])
 
     def test_items_list_with_multiples(self):
